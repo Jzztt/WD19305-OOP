@@ -8,8 +8,12 @@
 </head>
 
 <body>
+    <h1>Users</h1>
     @foreach ($users as $user)
-    <p>{{ $user['name'] }}</p>
+        <p>{{ $user['name'] }}</p>
+        <p>{{ $user['email'] }}</p>
+        <p>{{ $user['address'] }}</p>
+        <p>{{ $user['type'] }}</p>
     @endforeach
 
 </body>
