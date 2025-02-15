@@ -1,8 +1,13 @@
 @extends('admin.layouts.index')
 
-
-
 @section('content')
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ $title }}</li>
+        </ol>
+    </nav>
+    <h2>{{ $title }}</h2>
     @include('admin.components.display-msg-fail')
     @include('admin.components.display-msg-success')
 
@@ -15,15 +20,13 @@
                             <div class="mb-3 row">
                                 <label for="name" class="col-4 col-form-label">Name</label>
                                 <div class="col-8">
-                                    <input type="text" class="form-control" name="name" id="name"
-                                        />
+                                    <input type="text" class="form-control" name="name" id="name" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
                                 <label for="email" class="col-4 col-form-label">Email</label>
                                 <div class="col-8">
-                                    <input type="email" class="form-control" name="email" id="email"
-                                         />
+                                    <input type="email" class="form-control" name="email" id="email" />
                                 </div>
                             </div>
                             <div class="mb-3 row">
@@ -33,10 +36,10 @@
                                 </div>
                             </div>
                             <div class="mb-3 row">
-                                <label for="confirm_password" class="col-4 col-form-label">Confirm Password</label>
+                                <label for="address" class="col-4 col-form-label">Address</label>
                                 <div class="col-8">
-                                    <input type="password" class="form-control" name="confirm_password"
-                                        id="confirm_password" />
+                                    <input type="text" class="form-control" name="address"
+                                        id="address" />
                                 </div>
                             </div>
                             <div class="mb-3 row">

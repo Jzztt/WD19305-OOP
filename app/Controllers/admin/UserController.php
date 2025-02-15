@@ -2,9 +2,11 @@
 
 namespace App\Controllers\admin;
 
+use App\Controller;
 use App\Models\User;
+use Rakit\Validation\Validator;
 
-class UserController
+class UserController extends Controller
 {
     private User $user;
     public function __construct()
@@ -18,19 +20,56 @@ class UserController
         return view('admin.users.index', compact('users'));
     }
 
+    public function create()
+    {
+        $title = 'Create User';
+        return view('admin.users.create', compact('title'));
+    }
+
     public function store()
     {
+        $data = $_POST + $_FILES;
+        $validator = new Validator();
 
-        $newUser = [
-            'name' => "Nguyen Van A",
-            'email' => "z0aU0@example.com",
-            'password' => password_hash("123456", PASSWORD_DEFAULT),
-            'address' => "Hanoi",
-            'type' => 'client',
-            'created_at' => date('Y-m-d H:i:s'),
-            'updated_at' => date('Y-m-d H:i:s')
+        $rules = [
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8',
+            'address' => 'required',
+            'avatar' => 'required|uploaded_file:0,500K,png,jpeg,jpg',
+            'type' => [
+                'required',
+                $validator('in', ["admin", "client"]),
+            ],
         ];
-        $id = $this->user->insert($newUser);
-        print_r($id);
+        $errors = $this->validate($validator, $data, $rules);
+
+        if (!empty($errors)) {
+            $_SESSION['status'] = false;
+            $_SESSION['msg'] = "Thêm Thất bại";
+            $_SESSION['errors'] = $errors;
+            $_SESSION['data'] = $_POST;
+            redirect('/admin/users/create');
+        } else {
+            $_SESSION['data'] = null;
+        }
+
+        if (is_upload('avatar')) {
+            $data['avatar'] = $this->uploadFile($_FILES['avatar'], 'users');
+        } else {
+            $data['avatar'] = null;
+        }
+
+        $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
+
+        $this->user->insert($data);
+
+        redirect('/admin/users');
+        $_SESSION['status'] = true;
+        $_SESSION['msg'] = "Thêm Thành Công";
     }
+
+    public function show() {}
+    public function edit() {}
+    public function delete() {}
 }
