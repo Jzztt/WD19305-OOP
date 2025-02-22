@@ -8,59 +8,16 @@ class User extends Model
 {
     protected $tableName = 'users';
 
-
-    public function checkExistsEmailForCreate($email)
+    public function getAll()
     {
-        // Khởi tạo QueryBuilder
-        $queryBuilder = $this->connection->createQueryBuilder();
 
-        // Tạo query kiểm tra sự tồn tại của email
-        $queryBuilder->select('COUNT(*)')
-            ->from($this->tableName)
-            ->where('email = :email')
-            ->setParameter('email', $email);
+        // cách 1: createQueryBuilder
+        // $queryBuilder = $this->connection->createQueryBuilder();
+        // $queryBuilder->select('users.*', 'role.name as role_name')->from('users')->innerJoin('users', 'role', 'role', 'users.role_id = role.id');
+        // return  $queryBuilder->fetchAllAssociative();
 
-        // Thực thi query và lấy kết quả
-        $result = $queryBuilder->fetchOne();
-
-        // Kiểm tra nếu số lượng lớn hơn 0, tức là email đã tồn tại
-        return $result > 0;
-    }
-
-    public function checkExistsEmailForUpdate($id, $email)
-    {
-        // Khởi tạo QueryBuilder
-        $queryBuilder = $this->connection->createQueryBuilder();
-
-        // Tạo query kiểm tra sự tồn tại của email
-        $queryBuilder->select('COUNT(*)')
-            ->from($this->tableName)
-            ->where('email = :email')
-            ->andWhere('id != :id')  // Điều kiện id khác với giá trị id được cung cấp
-            ->setParameter('email', $email)
-            ->setParameter('id', $id);
-
-        // Thực thi query và lấy kết quả
-        $result = $queryBuilder->fetchOne();
-
-        // Kiểm tra nếu số lượng lớn hơn 0, tức là email đã tồn tại
-        return $result > 0;
-    }
-
-    public function getUserByEmail($email)
-    {
-        // Khởi tạo QueryBuilder
-        $queryBuilder = $this->connection->createQueryBuilder();
-
-        // Tạo query kiểm tra sự tồn tại của email
-        $queryBuilder->select('*')
-            ->from($this->tableName)
-            ->where('email = :email')
-            ->setParameter('email', $email);
-
-        // Thực thi query và lấy kết quả
-        $result = $queryBuilder->fetchAssociative();
-
-        return $result;
+        // cách 2 code thuần sql
+        $sql = "SELECT users.*, role.name as role_name FROM users JOIN role ON users.role_id = role.id";
+        return $this->connection->executeQuery($sql)->fetchAllAssociative();
     }
 }

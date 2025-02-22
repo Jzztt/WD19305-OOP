@@ -10,6 +10,7 @@
     <h2>{{ $title }}</h2>
     @include('admin.components.display-msg-fail')
     @include('admin.components.display-msg-success')
+    @include('admin.components.display-errors')
 
     <div class="row">
         <div class="col-12 mb-4 mb-lg-0">

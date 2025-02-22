@@ -22,8 +22,6 @@
                             <th scope="col">Address</th>
                             <th scope="col">Type</th>
                             <th scope="col">Action</th>
-
-
                         </tr>
                     </thead>
                     <tbody>
@@ -37,7 +35,7 @@
                                 <td>
                                     <a href="/admin/users/show/{{ $user['id'] }}" class="btn btn-info">Show</a>
                                     <a href="/admin/users/edit/{{ $user['id'] }}" class="btn btn-primary">Edit</a>
-                                    <a href="/admin/users/delete/{{ $user['id'] }}" class="btn btn-danger">DELETE</a>
+                                    <a onclick="return confirm('Are you sure?')" href="/admin/users/delete/{{ $user['id'] }}" class="btn btn-danger">DELETE</a>
                                 </td>
                             </tr>
                         @endforeach
