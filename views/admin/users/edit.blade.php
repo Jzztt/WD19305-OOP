@@ -50,6 +50,16 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="mb-3 row">
+                                <label for="type" class="col-4 col-form-label">Role</label>
+                                <div class="col-8">
+                                    <select class="form-select" name="role_id">
+                                        @foreach ($roles as $role)
+                                         <option @selected($user['role_id'] == $role['id']) value="{{ $role['id'] }}">{{ $role['name'] }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="mb-3 row">
                                 <div class="offset-sm-4 col-sm-8">

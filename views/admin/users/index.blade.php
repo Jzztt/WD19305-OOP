@@ -21,6 +21,7 @@
                             <th scope="col">Email</th>
                             <th scope="col">Address</th>
                             <th scope="col">Type</th>
+                            <th scope="col"> Role</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>
@@ -32,6 +33,8 @@
                                 <td>{{ $user['email'] }}</td>
                                 <td>{{ $user['address'] }}</td>
                                 <td>{{ $user['type'] }}</td>
+                                <td>{{ $user['role_name'] }}</td>
+
                                 <td>
                                     <a href="/admin/users/show/{{ $user['id'] }}" class="btn btn-info">Show</a>
                                     <a href="/admin/users/edit/{{ $user['id'] }}" class="btn btn-primary">Edit</a>

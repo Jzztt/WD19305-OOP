@@ -3,27 +3,33 @@
 namespace App\Controllers\admin;
 
 use App\Controller;
+use App\Models\Role;
 use App\Models\User;
 use Rakit\Validation\Validator;
 
 class UserController extends Controller
 {
     private User $user;
+
+    private Role $role;
+
     public function __construct()
     {
         $this->user = new User();
+        $this->role = new Role();
     }
 
     public function index()
     {
-        $this->user->getAll();
-        // return view('admin.users.index', compact('users'));
+        $users = $this->user->getAll();
+        return view('admin.users.index', compact('users'));
     }
 
     public function create()
     {
         $title = 'Create User';
-        return view('admin.users.create', compact('title'));
+        $roles = $this->role->findAll();
+        return view('admin.users.create', compact('title', 'roles'));
     }
 
     public function store()
@@ -37,6 +43,7 @@ class UserController extends Controller
             'password' => 'required|min:8',
             'address' => 'required',
             'avatar' => 'required',
+            'role_id' => 'required',
             'type' => [
                 'required',
                 $validator('in', ["admin", "client"]),
@@ -77,7 +84,8 @@ class UserController extends Controller
     {
         $title = 'Edit User';
         $user = $this->user->find($id);
-        return view('admin.users.edit', compact('title', 'user'));
+        $roles = $this->role->findAll();
+        return view('admin.users.edit', compact('title', 'user', 'roles'));
     }
 
     public function update($id)
@@ -91,6 +99,7 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'avatar' => 'nullable',
+            'role_id' => 'required',
             'type' => [
                 'required',
                 $validator('in', ["admin", "client"]),
